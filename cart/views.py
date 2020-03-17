@@ -10,7 +10,8 @@ def add_to_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     order_item, created = Cart.objects.get_or_create(
         item=item,
-        user=request.user
+        user=request.user,
+        purchased=False
     )
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():

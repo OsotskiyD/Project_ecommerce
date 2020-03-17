@@ -12,20 +12,22 @@ class Home(ListView):
     model = Product
     template_name = 'products/home.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = ProductFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
-def get_context_data(request):
-    # context = super().get_context_data(**kwargs)
-    filter = ProductFilter(request.GET, queryset=Product.objects.all())
-    return render(request, 'products/filter.html', {'filter': filter})
+
+# def get_context_data(request):
+#     # context = super().get_context_data(**kwargs)
+#     filter = ProductFilter(request.GET, queryset=Product.objects.all())
+#     return render(request, 'products/filter.html', {'filter': filter})
 
 
 class ProductDetail(LoginRequiredMixin, DetailView):
     model = Product
 
 
-# def product_list(request):
-#     filter = ProductFilter(request.GET, queryset=Product.objects.all())
-#     return render(request, 'products/filter.html', {'filter': filter})
 
 
 
